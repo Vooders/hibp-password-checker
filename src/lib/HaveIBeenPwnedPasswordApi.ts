@@ -5,7 +5,7 @@ export class HaveIBeenPwnedPasswordApi {
 
   private readonly API_URL = 'https://api.pwnedpasswords.com/range/'
 
-  async fetchResults (hash: string, retries: number = 5): Promise<hibpHash[]> {
+  async fetchResults (hash: string, retries: number = 5): Promise<HaveIBeenPwnedPasswordApi.HashTuple[]> {
     const hashStart = hash.slice(0, 5)
     const uri = `${this.API_URL}${hashStart}`
     const response = await this.requestPromise({
@@ -39,16 +39,16 @@ export class HaveIBeenPwnedPasswordApi {
 
   private formatResults (responseArray: string[], hashStart: string) {
     return responseArray.map((result: string) => {
-      const resultTuple = result.split(':') as hibpHash
+      const resultTuple = result.split(':') as HaveIBeenPwnedPasswordApi.HashTuple
       resultTuple[0] = hashStart.concat(resultTuple[0])
       return resultTuple
     })
   }
 }
 
-export type hibpHash = [string, number]
-
 export namespace HaveIBeenPwnedPasswordApi {
+  export type HashTuple = [string, number]
+
   export class ApiDownError extends Error {
     constructor (readonly code: Error, message: string = 'haveibeenpwned API is down') {
       super(message)

@@ -1,4 +1,4 @@
-import { HaveIBeenPwnedPasswordApi } from '../../src/lib/HaveIBeenPwnedApi'
+import { HaveIBeenPwnedPasswordApi } from '../../src/lib/HaveIBeenPwnedPasswordApi'
 import { Gen } from 'verify-it'
 import * as requestPromise from 'request-promise'
 import * as testdouble from 'testdouble'
