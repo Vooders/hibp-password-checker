@@ -3,7 +3,7 @@ import { HibpPasswords } from '../src/HibpPasswords'
 import { HaveIBeenPwnedPasswordApi } from '../src/lib/HaveIBeenPwnedPasswordApi'
 import * as testdouble from 'testdouble'
 import * as requestPromise from 'request-promise'
-import sha1 = require('sha1')
+import { sha1 } from '../src/lib/Sha1'
 
 const genApiResponse = () => {
   const amountOfResults = Gen.integerBetween(100, 500)()
@@ -26,7 +26,7 @@ const genHash = () => {
 describe('PasswordChecker', () => {
   verify.it('should return the correct number of times if reported by hibp',
     Gen.word, Gen.integerBetween(1, 500), async (password, amount) => {
-      const hash = sha1(password) as string
+      const hash = sha1(password)
       const mockApi = testdouble.object(new HaveIBeenPwnedPasswordApi(requestPromise))
       testdouble.when(
         mockApi.fetchResults(testdouble.matchers.anything(), testdouble.matchers.anything())

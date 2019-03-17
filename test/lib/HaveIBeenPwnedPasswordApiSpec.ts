@@ -2,8 +2,7 @@ import { HaveIBeenPwnedPasswordApi } from '../../src/lib/HaveIBeenPwnedPasswordA
 import { Gen } from 'verify-it'
 import * as requestPromise from 'request-promise'
 import * as testdouble from 'testdouble'
-
-const sha1 = require('sha1')
+import { sha1 } from '../../src/lib/Sha1'
 
 describe('HaveIBeenPwnedApi', () => {
   describe('check()', () => {
