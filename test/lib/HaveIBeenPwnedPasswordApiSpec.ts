@@ -20,7 +20,7 @@ describe('HaveIBeenPwnedApi', () => {
       const hash = sha1(password)
       const hashStart = hash.slice(0, 5)
 
-      await api.fetchResults(hash)
+      await api.fetchResults(hash, 0)
 
       testdouble.verify(mockRequestPromise({
         uri: `https://api.pwnedpasswords.com/range/${hashStart}`,
@@ -32,7 +32,7 @@ describe('HaveIBeenPwnedApi', () => {
     verify.it('should return a non empty array', Gen.word, async (password) => {
       const api = new HaveIBeenPwnedPasswordApi(requestPromise)
       const hash = sha1(password)
-      const results = await api.fetchResults(hash)
+      const results = await api.fetchResults(hash, 0)
       return results.length.should.be.greaterThan(0)
     })
 
@@ -44,7 +44,7 @@ describe('HaveIBeenPwnedApi', () => {
           .thenResolve(response)
 
         const api = new HaveIBeenPwnedPasswordApi(mockRequestPromise)
-        return api.fetchResults(hash).should.eventually.be
+        return api.fetchResults(hash, 0).should.eventually.be
           .rejectedWith(HaveIBeenPwnedPasswordApi.MalformedResponseError, 'The API response was malformed')
           .with.property('response', response)
       })
@@ -60,7 +60,7 @@ describe('HaveIBeenPwnedApi', () => {
           })
 
         const api = new HaveIBeenPwnedPasswordApi(mockRequestPromise)
-        return api.fetchResults(hash).should.eventually.be
+        return api.fetchResults(hash, 0).should.eventually.be
           .rejectedWith(HaveIBeenPwnedPasswordApi.ApiDownError, 'haveibeenpwned API is down')
           .with.property('code', errorCode)
       })
