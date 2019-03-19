@@ -1,27 +1,20 @@
 {
-  "name": "password-checker",
+  "name": "hibp-password-checker",
   "version": "0.0.1",
   "main": "dist/index.js",
   "license": "UNLICENSED",
   "scripts": {
-    "prestart": "npm run build",
-    "start": "node dist/index.js",
     "pretest": "npm run build",
     "test": "npm-run-all -p -c 'unittest' 'lint'",
     "unittest": "scripts/test-with-coverage.sh",
     "lint": "tslint --project ./ --exclude \"node_modules/*/**.ts\"",
-    "build": "rm -rf dist && tsc",
-    "prepublish": "npm run build"
+    "build": "rm -rf dist && tsc"
   },
   "devDependencies": {
-    "@types/bluebird": "^3.5.24",
     "@types/chai": "^4.1.4",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^9.4.6",
-    "@types/request": "^2.48.1",
-    "@types/request-promise": "^4.1.42",
-    "@types/sha1": "^1.1.1",
     "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
     "mocha": "^5.2.0",
@@ -37,8 +30,5 @@
     "typescript": "3.0.3",
     "verify-it": "1.2.1"
   },
-  "dependencies": {
-    "request": "^2.88.0",
-    "request-promise": "^4.2.4"
-  }
+  "dependencies": {}
 }

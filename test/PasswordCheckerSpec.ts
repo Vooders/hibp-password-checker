@@ -1,9 +1,9 @@
 import { Gen } from 'verify-it'
 import { HibpPasswords } from '../src/HibpPasswords'
 import { HaveIBeenPwnedPasswordApi } from '../src/lib/HaveIBeenPwnedPasswordApi'
-import * as testdouble from 'testdouble'
-import * as requestPromise from 'request-promise'
+import { httpsClient } from '../src/lib/httpsClient'
 import { sha1 } from '../src/lib/Sha1'
+import * as testdouble from 'testdouble'
 
 const genApiResponse = () => {
   const amountOfResults = Gen.integerBetween(100, 500)()
@@ -27,7 +27,7 @@ describe('PasswordChecker', () => {
   verify.it('should return the correct number of times if reported by hibp',
     Gen.word, Gen.integerBetween(1, 500), async (password, amount) => {
       const hash = sha1(password)
-      const mockApi = testdouble.object(new HaveIBeenPwnedPasswordApi(requestPromise))
+      const mockApi = testdouble.object(new HaveIBeenPwnedPasswordApi({} as httpsClient))
       testdouble.when(
         mockApi.fetchResults(testdouble.matchers.anything(), testdouble.matchers.anything())
       ).thenResolve(genResponseWith(hash, amount))
@@ -37,7 +37,7 @@ describe('PasswordChecker', () => {
 
   verify.it('should return 0 if not reported by hibp',
     Gen.word, async (password) => {
-      const mockApi = testdouble.object(new HaveIBeenPwnedPasswordApi(requestPromise))
+      const mockApi = testdouble.object(new HaveIBeenPwnedPasswordApi({} as httpsClient))
       testdouble.when(
         mockApi.fetchResults(testdouble.matchers.anything(), testdouble.matchers.anything())
       ).thenResolve(genApiResponse())

@@ -1,6 +1,8 @@
+import { httpsClient } from './httpsClient'
+
 export class HaveIBeenPwnedPasswordApi {
   constructor (
-    private readonly requestPromise: any
+    private readonly httpsClient: httpsClient
   ) {}
 
   private readonly API_URL = 'https://api.pwnedpasswords.com/range/'
@@ -8,11 +10,7 @@ export class HaveIBeenPwnedPasswordApi {
   async fetchResults (hash: string, retries: number): Promise<HaveIBeenPwnedPasswordApi.HashTuple[]> {
     const hashStart = hash.slice(0, 5)
     const uri = `${this.API_URL}${hashStart}`
-    const response = await this.requestPromise({
-      uri,
-      json: true,
-      resolveWithFullResponse: true
-    })
+    const response = await this.httpsClient.get(uri)
 
     if (response.statusCode === 200) {
       const formattedResults = this.formatResults(response.body.split('\r\n'), hashStart)
@@ -21,7 +19,7 @@ export class HaveIBeenPwnedPasswordApi {
 
     if (response.statusCode === 429) {
       if (retries > 0 && response.headers) {
-        const retryAfterInMillis = response.headers['Retry-After'] * 1000
+        const retryAfterInMillis = Number(response.headers['Retry-After']) * 1000
         const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
         await timeout(retryAfterInMillis)
         return this.fetchResults(hash, --retries)
@@ -50,7 +48,7 @@ export namespace HaveIBeenPwnedPasswordApi {
   export type HashTuple = [string, number]
 
   export class ApiDownError extends Error {
-    constructor (readonly code: Error, message: string = 'haveibeenpwned API is down') {
+    constructor (readonly code: number, message: string = 'haveibeenpwned API is down') {
       super(message)
       this.name = this.constructor.name
     }
