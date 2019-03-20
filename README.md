@@ -23,10 +23,10 @@ The module returns an integer which represents the amount of times it has been s
   const HibpPasswords = require('HibpPasswords')
 
   HibpPasswords.lookup('aPassword')
-    .then(count => {
+    .then((count) => {
       console.log(`Password was found ${count} times.`)
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err)
     })
 ```
