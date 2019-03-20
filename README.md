@@ -8,6 +8,16 @@ The API uses k-anonymity to avoid sending even hashed versions of a password to 
 
 The module returns an integer which represents the amount of times it has been seen in the database.
 
+#### Display count using async/await
+``` javascript
+  const HibpPasswords = require('HibpPasswords')
+
+  async function passwordPwnedCount (password) {
+    const count = await HibpPasswords.lookup(password)
+    console.log(`Password was found ${count} times.`)
+  }
+```
+
 #### Display count using a promise Chain
 ``` javascript
   const HibpPasswords = require('HibpPasswords')
@@ -21,22 +31,12 @@ The module returns an integer which represents the amount of times it has been s
     })
 ```
 
-#### Display count using async/await
-``` javascript
-  const HibpPasswords = require('HibpPasswords')
-
-  async function passwordPwnedCount (password) {
-    const count = await HibpPasswords.lookup(password)
-    console.log(`Password was found ${count} times.`)
-  }
-```
-
 #### Boolean response using async/await
 ``` javascript
   const HibpPasswords = require('HibpPasswords')
 
-  async function passwordPwned () {
-    const pwned = await HibpPasswords.lookup('aPassword')
+  async function passwordPwned (password) {
+    const pwned = await HibpPasswords.lookup(password)
     return (pwned) ? true : false
   }
 ```
