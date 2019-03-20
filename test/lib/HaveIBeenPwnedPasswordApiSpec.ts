@@ -1,8 +1,8 @@
 import { HaveIBeenPwnedPasswordApi } from '../../src/lib/HaveIBeenPwnedPasswordApi'
-import { Gen } from 'verify-it'
 import { httpsClient } from '../../src/lib/httpsClient'
-import * as testdouble from 'testdouble'
 import { sha1 } from '../../src/lib/Sha1'
+import { Gen } from 'verify-it'
+import * as testdouble from 'testdouble'
 
 describe('HaveIBeenPwnedApi', () => {
   describe('check()', () => {

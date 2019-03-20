@@ -9,7 +9,7 @@ export class HaveIBeenPwnedPasswordApi {
 
   async fetchResults (hash: string, retries: number): Promise<HaveIBeenPwnedPasswordApi.HashTuple[]> {
     const hashStart = hash.slice(0, 5)
-    const uri = `${this.API_URL}${hashStart}`
+    const uri = this.API_URL.concat(hashStart)
     const response = await this.httpsClient.get(uri)
 
     if (response.statusCode === 200) {

@@ -2,7 +2,7 @@
   "name": "hibp-password-checker",
   "version": "0.0.1",
   "main": "dist/index.js",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "pretest": "npm run build",
     "test": "npm-run-all -p -c 'unittest' 'lint'",
